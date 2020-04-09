@@ -27,12 +27,19 @@ namespace ParallelExcelProcessor
             SqlConnectionFactory connectionFactory = new SqlConnectionFactory();
             using (SqlConnection connection = connectionFactory.GetSqlConnection(configuration))
             {
-                SqlCommand cmd = new SqlCommand("dbo.InsertMyDataTable", connection);
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("dbo.upsertalldatatypes_procedure", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                SqlParameter tvparam = cmd.Parameters.AddWithValue("@all", dataTable);
+                SqlParameter tvparam = cmd.Parameters.AddWithValue("@AllDataTypesTable", dataTable);
                 tvparam.SqlDbType = SqlDbType.Structured;
                 await cmd.ExecuteNonQueryAsync();
             }
+        }
+
+        public static Stream GenerateStreamFromBytes(byte[] b)
+        {
+            MemoryStream stream = new MemoryStream(b);
+            return stream;
         }
     }
 }

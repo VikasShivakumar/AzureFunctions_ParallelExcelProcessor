@@ -1,2 +1,3 @@
-﻿.vs/ParallelExcelProcessor/config/applicationhost.config
+﻿.vs
 *.suo
+DesignTimeBuild

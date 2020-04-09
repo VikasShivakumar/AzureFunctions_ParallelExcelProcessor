@@ -1,4 +1,5 @@
-﻿using ExcelDataReader;
+﻿
+using ExcelDataReader;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -35,7 +36,16 @@ namespace ParallelExcelProcessor
                 AnalyzeInitialCsvRows = 0,
             });
 
-            var result = reader.AsDataSet();
+            var result = reader.AsDataSet(new ExcelDataSetConfiguration()
+            {
+                ConfigureDataTable = (options) =>
+                {
+                    return new ExcelDataTableConfiguration()
+                    {
+                        UseHeaderRow = true,
+                    };
+                }
+            });
 
             return result.Tables.Cast<DataTable>();
 
